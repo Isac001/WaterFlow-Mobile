@@ -1,45 +1,46 @@
 import 'package:get/get.dart';
-import 'package:waterflow_mobile/modules/auth/controllers/auth_controller.dart';
-import 'package:waterflow_mobile/modules/auth/models/auth_model.dart';
+import 'package:waterflow_mobile/auth/controllers/auth_controller.dart';
+import 'package:waterflow_mobile/auth/models/auth_model.dart';
 import 'package:dio/dio.dart';
-import 'package:waterflow_mobile/utils/dio_config.dart';
+import 'package:waterflow_mobile/utils/project_configs/dio_config.dart';
 
-// Classe principal
+// Main class
 class AuthService {
-  // Mapeamento da URL do servidor
+  // Server URL mapping
   final String baseUrl = const String.fromEnvironment('BASEURL');
 
-  // Mapeamento do endpoint do token
+  // Token endpoint mapping
   final String tokenEndpoint = 'token/';
 
-  // Mapeamento do endpoint de logout
+  // Logout endpoint mapping
   final String lougoutEndpoint = 'logout/';
 
-  // Controlador de autenticação
+  // Authentication controller
   final AuthController _authController = Get.find<AuthController>();
 
-  // Importação do Dio personalizado
+  // Custom Dio import
   final Dio _dio = DioConfig().dio;
 
-  // Metodo para a autenticação
+  // Method for authentication
   Future<void> requestToken({required AuthModel authModel}) async {
-    // Try e Catch para tartamento de erros
+    // Try and Catch for error handling
+
     try {
-      // Mapeia a URL completa para o token e com os dados de autenticação
+      // Maps the full URL for the token with the authentication data
       dynamic response =
           await _dio.post('$baseUrl$tokenEndpoint', data: authModel.toJson());
 
-      // Tratamento de sucesso da requisição
+      // Request success handling
       if (response.statusCode == 200) {
         _authController.tokenDecoder(response.data);
         return response.data;
 
-        // Tratamento de erro
+        // Error handling
       } else {
         return Future.error(response.data);
       }
 
-      // Captura de execção a nível do dio
+      // Dio-level exception capture
     } on DioException catch (error) {
       if (error.response != null) {
         return Future.error(error.response!.data);
@@ -49,22 +50,22 @@ class AuthService {
     }
   }
 
-  // Metodo para logout
+  // Method for logout
   Future logout() async {
     try {
-      // URL completa para logout
+      // Full URL for logout
       dynamic response = await _dio.post(
         '$baseUrl$lougoutEndpoint',
       );
 
-      // Tratamento de requisição bem sucedida
+      // Successful request handling
       if (response.statusCode == 205) {
         return response.data;
       } else {
         return Future.error(response.data);
       }
 
-      // Tratamento de erro
+      // Error handling
     } on DioException catch (error) {
       if (error.response != null) {
         return Future.error(error.response!.data);
