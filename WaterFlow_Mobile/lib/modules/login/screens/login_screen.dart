@@ -6,7 +6,7 @@ import 'package:waterflow_mobile/utils/constans_values/fontsize_constrant.dart';
 import 'package:waterflow_mobile/utils/constans_values/paddings_constants.dart';
 import 'package:waterflow_mobile/utils/constans_values/radius_constants.dart';
 import 'package:waterflow_mobile/utils/constans_values/theme_color_constants.dart';
-
+import 'package:waterflow_mobile/widgets/triangule_art_widget.dart';
 
 // Define the LoginScreen widget
 class LoginScreen extends StatefulWidget {
@@ -17,15 +17,21 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-
   // Calling the controller injected by GetX
   final LoginScreenController _loginScreenController =
       Get.find<LoginScreenController>();
 
+
+  @override
+  void initState() {
+    super.initState();
+    // Chama o método para preparar o formulário assim que a tela é iniciada
+    _loginScreenController.prepareForm(); 
+  }
+
   @override
   Widget build(BuildContext context) {
-
-    // Variable to get the screen size  
+    // Variable to get the screen size
     final screenSize = MediaQuery.of(context).size;
     final double primaryTriangleWidth = screenSize.width * 0.6;
     final double primaryTriangleHeight = screenSize.height * 0.15;
@@ -41,7 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
             top: 0,
             left: 0,
             child: ClipPath(
-              clipper: _TriangleClipper(isTopCorner: true),
+              clipper: TriangleClipper(isTopCorner: true),
               child: Container(
                 color: ThemeColor.secondaryColor,
                 width: secondaryTriangleWidth,
@@ -49,11 +55,13 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
           ),
+
+          // Secondary triangle at the bottom right corner
           Positioned(
             bottom: 0,
             right: 0,
             child: ClipPath(
-              clipper: _TriangleClipper(isTopCorner: false),
+              clipper: TriangleClipper(isTopCorner: false),
               child: Container(
                 color: ThemeColor.secondaryColor,
                 width: secondaryTriangleWidth,
@@ -61,11 +69,12 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
           ),
+          // Primary triangle at the top left corner
           Positioned(
             top: 0,
             left: 0,
             child: ClipPath(
-              clipper: _TriangleClipper(isTopCorner: true),
+              clipper: TriangleClipper(isTopCorner: true),
               child: Container(
                 color: ThemeColor.primaryColor,
                 width: primaryTriangleWidth,
@@ -73,11 +82,12 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
           ),
+          // Primary triangle at the bottom right corner
           Positioned(
             bottom: 0,
             right: 0,
             child: ClipPath(
-              clipper: _TriangleClipper(isTopCorner: false),
+              clipper: TriangleClipper(isTopCorner: false),
               child: Container(
                 color: ThemeColor.primaryColor,
                 width: primaryTriangleWidth,
@@ -95,10 +105,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     // Application logo image
-                    Image.asset(
-                      "assets/app_images/WaterFlow_without_background.png",
-                      height: 200,
-                    ),
+                    _imageLogo(),
                     // Login form
                     Form(
                       key: LoginFormKey.loginFormKey,
@@ -119,6 +126,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         ],
                       ),
                     ),
+
+                    // Spacing between the form and the login button
                     const SizedBox(height: kPaddingLarge),
                     _loggingButton(),
                   ],
@@ -226,7 +235,6 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
         onPressed: () {
           _loginScreenController.submit();
-          _loginScreenController.saveSecureData();
         },
         child: const Text(
           'Entrar',
@@ -237,7 +245,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  //[TODO] Implement the password recovery functionality
+  ///[TODO] Implement the password recovery functionality
   Widget _recoverPasswordButton() {
     return ElevatedButton(
       onPressed: () {},
@@ -250,34 +258,10 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 }
 
-/// CLASS TO CREATE THE TRIANGULAR SHAPE
-class _TriangleClipper extends CustomClipper<Path> {
-  final bool isTopCorner;
-
-  _TriangleClipper({this.isTopCorner = true});
-
-  @override
-  Path getClip(Size size) {
-    final path = Path();
-
-    if (isTopCorner) {
-
-      // Triangle for the top-left corner
-      path.lineTo(size.width, 0.0);
-      path.lineTo(0.0, size.height);
-      path.close();
-
-    } else {
-      
-      // Triangle for the bottom-right corner
-      path.moveTo(size.width, 0);
-      path.lineTo(0, size.height);
-      path.lineTo(size.width, size.height);
-      path.close();
-    }
-    return path;
-  }
-
-  @override
-  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
+  // Widget for the application logo
+  Widget _imageLogo() {
+  return Image.asset(
+    "assets/app_images/WaterFlow_Logo.png",
+    height: 200,
+  );
 }

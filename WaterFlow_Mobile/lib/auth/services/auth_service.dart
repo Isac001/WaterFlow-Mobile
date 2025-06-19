@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 import 'package:waterflow_mobile/auth/controllers/auth_controller.dart';
 import 'package:waterflow_mobile/auth/models/auth_model.dart';
 import 'package:dio/dio.dart';
-import 'package:waterflow_mobile/utils/project_configs/dio_config.dart';
+import 'package:waterflow_mobile/project_configs/dio_config.dart';
 
 // Main class
 class AuthService {
@@ -10,7 +10,7 @@ class AuthService {
   final String baseUrl = const String.fromEnvironment('BASEURL');
 
   // Token endpoint mapping
-  final String tokenEndpoint = 'token/';
+  final String tokenEndpoint = 'token-auth/';
 
   // Logout endpoint mapping
   final String lougoutEndpoint = 'logout/';

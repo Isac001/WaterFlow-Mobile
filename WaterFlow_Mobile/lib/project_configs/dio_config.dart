@@ -10,6 +10,7 @@ import 'package:waterflow_mobile/utils/constans_values/theme_color_constants.dar
 class DioConfig {
   // Instantiating the necessary controllers
   final AuthController _authController = getx.Get.find<AuthController>();
+
   final GeneralController _generalController =
       getx.Get.find<GeneralController>();
 
@@ -19,8 +20,7 @@ class DioConfig {
   get dio => _dio;
 
   // Class constructor
-  DioConfig()
-      : _dio = Dio() {
+  DioConfig() : _dio = Dio() {
     // Adding the interceptor
     _dio.interceptors.add(
       InterceptorsWrapper(
@@ -78,7 +78,70 @@ class DioConfig {
           }
           return handler.next(response);
         },
+        // Handling when an error occurs during the request
+        onError: (error, handle) {
+          // If the error is a DioException, it means there was an issue with the request
+          if (error.requestOptions.extra['skipLoading'] != true) {
+            _generalController.loadingIndex.value -= 1;
+          }
+
+          // If the loading index is 0, it means there are no active requests
+          if (_generalController.loadingIndex.value == 0) {
+            if (error.requestOptions.method == 'GET') {
+              getx.Get.back(closeOverlays: true);
+            } else {
+              getx.Get.until((route) => !getx.Get.isDialogOpen!);
+            }
+          }
+
+          // If the error is a DioException, it means there was an issue with the request
+          log(
+            '${error.requestOptions.path} retornou ${error.response?.statusCode}',
+            name: 'Erro na requisição',
+          );
+
+          // If the error is a DioException, it means there was an issue with the request
+          _showExceptipn(error.response?.data ?? error.message);
+
+          // If the error is a DioException, it means there was an issue with the request
+          return handle.next(error);
+        },
       ),
     );
+  }
+
+// Function to show an exception
+  void _showExceptipn(dynamic data) {
+    // Case 1: If the data is a Map, it means it's an error response from the server
+    if (data is String) {
+      _generalController.errorSnackBarCustom(message: data);
+    }
+
+    // Case 2: the field 'data' is a List, which means it contains multiple error messages
+    else if (data is List<dynamic>) {
+      _generalController.errorSnackBarCustom(message: data.first);
+    }
+
+    // Case 3: If the data is a Map, it means it contains a single error message
+    else if (data is Map<String, dynamic>) {
+      data.forEach(
+        (key, value) {
+          if (value is List) {
+            for (var element in value) {
+              _generalController.errorSnackBarCustom(message: '$key: $element');
+            }
+          }
+          // Case 4: If the data is a String, it means it's a single error message
+          else {
+            _generalController.errorSnackBarCustom(message: data.toString());
+          }
+        },
+      );
+    }
+    // Case 5: If the data is null, it means the service is unavailable
+    else {
+      _generalController.errorSnackBarCustom(
+          message: 'Serviço indisponível, tente mais tarde.');
+    }
   }
 }

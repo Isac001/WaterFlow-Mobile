@@ -30,6 +30,11 @@ class LocalSecureData {
     return deleteData;
   }
 
+  static Future deleteSavedCredentials() async {
+    await _storage.delete(key: 'user_email');
+    await _storage.delete(key: 'password');
+  }
+
   // Function to save data on the device
   static Future<bool?> saveData() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -50,4 +55,18 @@ class LocalSecureData {
     _loginScreenController.stayConnected.value = false;
     return data;
   }
+
+  // Função para salvar a PREFERÊNCIA de "Lembrar Login"
+  static Future<void> setStayConnected(bool value) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('stayConnected', value);
+  }
+
+  // Função para LER a PREFERÊNCIA de "Lembrar Login"
+  static Future<bool> getStayConnected() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    // Retorna o valor salvo, ou 'false' se nunca foi salvo antes.
+    return prefs.getBool('stayConnected') ?? false;
+  }
+
 }
