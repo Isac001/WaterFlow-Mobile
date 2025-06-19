@@ -16,7 +16,7 @@ The project requires two additional Git repositories besides this one. First, th
 
 - **Step 1:** Open a terminal and run the following command:
     ```bash
-    git clone https://github.com/Isac001/Desafio-Guia-Motel.git](https://github.com/Isac001/WaterFlow-Mobile.git 
+    git clone https://github.com/Isac001/WaterFlow-Mobile.git
     ```
 
 - **Step 2:** Open the cloned folder by running:
