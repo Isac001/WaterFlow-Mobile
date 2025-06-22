@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:intl/intl.dart';
 
-/// Controller for the Home Screen
+///[TODO] REMOVE OR EDITING THIS CONTROLLER
 class HomeScreenController extends GetxController {
 
   // Variable can be used to store the user's timezone and current time

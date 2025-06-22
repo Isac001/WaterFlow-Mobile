@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:waterflow_mobile/modules/login/controllers/login_screen_controller.dart';
 
+// Class to manage secure data
 class LocalSecureData {
   // Initializing secure storage
   static const FlutterSecureStorage _storage = FlutterSecureStorage();
@@ -56,17 +57,16 @@ class LocalSecureData {
     return data;
   }
 
-  // Função para salvar a PREFERÊNCIA de "Lembrar Login"
+  // Function to save the "Stay Connected" PREFERENCE
   static Future<void> setStayConnected(bool value) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool('stayConnected', value);
   }
 
-  // Função para LER a PREFERÊNCIA de "Lembrar Login"
+// Function to READ the "Stay Connected" PREFERENCE
   static Future<bool> getStayConnected() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    // Retorna o valor salvo, ou 'false' se nunca foi salvo antes.
+    // Returns the saved value, or 'false' if it has never been saved before.
     return prefs.getBool('stayConnected') ?? false;
   }
-
 }
