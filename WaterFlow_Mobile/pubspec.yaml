@@ -29,6 +29,7 @@ dependencies:
   flutter_native_splash: ^2.4.4
   syncfusion_flutter_gauges: ^29.1.38 
   flutter_launcher_icons: ^0.14.4
+  web_socket_channel: ^2.4.0
 
 dev_dependencies:
   flutter_test:
