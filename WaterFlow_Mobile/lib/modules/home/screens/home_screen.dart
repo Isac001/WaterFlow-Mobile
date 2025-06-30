@@ -49,7 +49,10 @@ class _HomeScreenState extends State<HomeScreen> {
               icon: Icons.water_damage_outlined,
               label: 'Diário',
               isSelected: true,
-              onPressed: () {},
+              onPressed: () {
+                      Get.offNamed('/dailyWaterConsumption');
+
+              },
             ),
             // Button to weekly report
             MenuButtonWidget(
