@@ -16,11 +16,13 @@ class DioConfig {
 
   // Instantiating Dio and setting a getter for it
   final Dio _dio;
-
   get dio => _dio;
 
+  // Show Loading variable
+  bool showLoading;
+
   // Class constructor
-  DioConfig() : _dio = Dio() {
+  DioConfig({this.showLoading = true}) : _dio = Dio() {
     // Adding the interceptor
     _dio.interceptors.add(
       InterceptorsWrapper(

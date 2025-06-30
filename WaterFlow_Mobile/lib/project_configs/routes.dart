@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:waterflow_mobile/modules/daily_water_consumption/screens/daily_water_consumption_screen.dart';
 import 'package:waterflow_mobile/modules/home/screens/home_screen.dart';
 import 'package:waterflow_mobile/modules/login/screens/login_screen.dart';
 import 'package:waterflow_mobile/utils/splash_utils/splash_screen.dart';
@@ -19,6 +20,9 @@ class Routes {
 
     // [LOGIN ROUTES]
     '/login': (context) => const LoginScreen(),
+
+    // [DAILY WATER CONSUMPTION ROUTES]
+    '/dailyWaterConsumption': (context) => const DailyWaterConsumptionScreen(),
 
   };
 }
