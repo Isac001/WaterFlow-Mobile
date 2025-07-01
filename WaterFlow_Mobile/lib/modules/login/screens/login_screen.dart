@@ -21,22 +21,23 @@ class _LoginScreenState extends State<LoginScreen> {
   final LoginScreenController _loginScreenController =
       Get.find<LoginScreenController>();
 
-
   @override
   void initState() {
     super.initState();
     // Chama o método para preparar o formulário assim que a tela é iniciada
-    _loginScreenController.prepareForm(); 
+    _loginScreenController.prepareForm();
   }
 
   @override
   Widget build(BuildContext context) {
     // Variable to get the screen size
     final screenSize = MediaQuery.of(context).size;
-    final double primaryTriangleWidth = screenSize.width * 0.6;
-    final double primaryTriangleHeight = screenSize.height * 0.15;
-    final double secondaryTriangleWidth = primaryTriangleWidth + 40;
-    final double secondaryTriangleHeight = primaryTriangleHeight + 50;
+  
+  final double primaryTriangleWidth = screenSize.width * 0.4; 
+  final double primaryTriangleHeight = screenSize.height * 0.1; 
+
+  final double secondaryTriangleWidth = primaryTriangleWidth + 40;
+  final double secondaryTriangleHeight = primaryTriangleHeight + 50;
 
     return Scaffold(
       backgroundColor: ThemeColor.whiteColor,
@@ -47,7 +48,7 @@ class _LoginScreenState extends State<LoginScreen> {
             top: 0,
             left: 0,
             child: ClipPath(
-              clipper: TriangleClipper(isTopCorner: true),
+              clipper: TriangleArtWidget(isTopCorner: true),
               child: Container(
                 color: ThemeColor.secondaryColor,
                 width: secondaryTriangleWidth,
@@ -61,7 +62,7 @@ class _LoginScreenState extends State<LoginScreen> {
             bottom: 0,
             right: 0,
             child: ClipPath(
-              clipper: TriangleClipper(isTopCorner: false),
+              clipper: TriangleArtWidget(isTopCorner: false),
               child: Container(
                 color: ThemeColor.secondaryColor,
                 width: secondaryTriangleWidth,
@@ -74,7 +75,7 @@ class _LoginScreenState extends State<LoginScreen> {
             top: 0,
             left: 0,
             child: ClipPath(
-              clipper: TriangleClipper(isTopCorner: true),
+              clipper: TriangleArtWidget(isTopCorner: true),
               child: Container(
                 color: ThemeColor.primaryColor,
                 width: primaryTriangleWidth,
@@ -87,7 +88,7 @@ class _LoginScreenState extends State<LoginScreen> {
             bottom: 0,
             right: 0,
             child: ClipPath(
-              clipper: TriangleClipper(isTopCorner: false),
+              clipper: TriangleArtWidget(isTopCorner: false),
               child: Container(
                 color: ThemeColor.primaryColor,
                 width: primaryTriangleWidth,
@@ -258,8 +259,8 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 }
 
-  // Widget for the application logo
-  Widget _imageLogo() {
+// Widget for the application logo
+Widget _imageLogo() {
   return Image.asset(
     "assets/app_images/WaterFlow_Logo.png",
     height: 200,

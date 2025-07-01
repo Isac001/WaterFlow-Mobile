@@ -40,7 +40,7 @@ class _DailyWaterConsumptionScreenState
               Get.toNamed('/home'); // Navigate to home screen.
             },
             iconSize: Get.mediaQuery.size.height * 0.050,
-            icon: const Icon(Icons.keyboard_return_sharp, color: ThemeColor.redAccent),
+            icon: const Icon(Icons.keyboard_return_sharp, color: ThemeColor.whiteColor),
           ),
         title: const Text(
           'Consumo Diário',

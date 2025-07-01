@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:waterflow_mobile/auth/controllers/auth_controller.dart';
 import 'package:waterflow_mobile/controllers/flow_reading_controller.dart';
+import 'package:waterflow_mobile/utils/constans_values/fontsize_constrant.dart';
 import 'package:waterflow_mobile/utils/constans_values/paddings_constants.dart';
 import 'package:waterflow_mobile/utils/constans_values/radius_constants.dart';
 import 'package:waterflow_mobile/utils/constans_values/theme_color_constants.dart';
-import 'package:waterflow_mobile/widgets/menu_button_widget.dart';
 import 'package:waterflow_mobile/widgets/radial_graph_widget.dart';
 import 'package:waterflow_mobile/widgets/triangule_art_widget.dart';
 
@@ -17,14 +17,17 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  // Calling the controller injected by GetX
-  // final HomeScreenController _homeScreenController =
-  //     Get.find<HomeScreenController>();
 
+  // Calling the controller injected by GetX
   final FlowReadingController _flowReadingController =
       Get.find<FlowReadingController>();
 
+  // Calling the controller injected by GetX
   final AuthController _authController = Get.find<AuthController>();
+
+  // Key to the Scaffold
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     // Screen size variable to get the screen dimensions
@@ -35,55 +38,9 @@ class _HomeScreenState extends State<HomeScreen> {
     final double secondaryTriangleHeight = primaryTriangleHeight + 50;
 
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: ThemeColor.whiteColor,
-
-      ///[TODO] Add the screens navigation
-      // Adding the navigation bar with the button to switch between screens
-      bottomNavigationBar: BottomAppBar(
-        color: ThemeColor.primaryColor,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            // Button to daily report
-            MenuButtonWidget(
-              icon: Icons.water_damage_outlined,
-              label: 'Diário',
-              isSelected: true,
-              onPressed: () {
-                      Get.offNamed('/dailyWaterConsumption');
-
-              },
-            ),
-            // Button to weekly report
-            MenuButtonWidget(
-              icon: Icons.water_damage_outlined,
-              label: 'Semanal',
-              isSelected: false,
-              onPressed: () {},
-            ),
-            // Button to monthly report
-            MenuButtonWidget(
-              icon: Icons.water_damage_outlined,
-              label: 'Mensal',
-              isSelected: true,
-              onPressed: () {},
-            ),
-            // Button to bimestral report
-            MenuButtonWidget(
-              icon: Icons.water_damage_outlined,
-              label: 'Bimestral',
-              isSelected: true,
-              onPressed: () {},
-            ),
-            MenuButtonWidget(
-              icon: Icons.person,
-              label: 'Perfil',
-              isSelected: true,
-              onPressed: () {},
-            )
-          ],
-        ),
-      ),
+      drawer: _buildSideMenu(),
 
       // Main body of the screen
       body: Stack(
@@ -93,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
             top: 0,
             left: 0,
             child: ClipPath(
-              clipper: TriangleClipper(isTopCorner: true),
+              clipper: TriangleArtWidget(isTopCorner: true),
               child: Container(
                 color: ThemeColor.secondaryColor,
                 width: secondaryTriangleWidth,
@@ -107,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
             top: 0,
             left: 0,
             child: ClipPath(
-              clipper: TriangleClipper(isTopCorner: true),
+              clipper: TriangleArtWidget(isTopCorner: true),
               child: Container(
                 color: ThemeColor.primaryColor,
                 width: primaryTriangleWidth,
@@ -124,6 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    _titleOfGraph(),
                     // Displaying the radial graph
                     _radialGrap(),
                     // Displaying the formatted date from the controller
@@ -138,25 +96,26 @@ class _HomeScreenState extends State<HomeScreen> {
           MediaQuery(
             data: MediaQuery.of(context),
             child: Positioned(
-                top: MediaQuery.of(context).size.height * 0.01,
-                right: MediaQuery.of(context).size.width * 0.02,
+              top: MediaQuery.of(context).size.height * 0.01,
+              right: MediaQuery.of(context).size.width * 0.02,
 
-                // Logout button to exit the application
-                child: _logoutButton()),
+              // Logout button to exit the application
+              child:  Row(
+                children: [_notificationsButton(), _logoutButton()],
+              ),
+            ),
           ),
 
           ///[TODO] Add notification functionality
-          // Positioned notification button
+         
           MediaQuery(
             data: MediaQuery.of(context),
             child: Positioned(
-              top: MediaQuery.of(context).size.height * 0.08,
-              right: MediaQuery.of(context).size.width * 0.02,
-
-              // Notification button to show notifications [TODO: Add notifications functionality]
-              child: _notificationsButton()
+              top: MediaQuery.of(context).size.height * 0.01,
+              left: MediaQuery.of(context).size.width * 0.02,
+              child: _sideBarButtom(),
             ),
-          )
+          ),
         ],
       ),
     );
@@ -212,7 +171,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _logoutButton() {
-
     // Logout button to exit the application
     return IconButton(
       onPressed: () async {
@@ -236,13 +194,142 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _notificationsButton() {
-
     // Notification button to show notifications [TODO: Add notifications functionality]
     return IconButton(
       onPressed: () {},
       icon: Icon(Icons.notification_important_outlined,
           color: ThemeColor.secondaryColor,
           size: MediaQuery.of(context).size.width * 0.12),
+    );
+  }
+
+  Widget _sideBarButtom() {
+    // Side bar button to open the side bar [TODO: Add side bar functionality]
+    return IconButton(
+      onPressed: () {
+        _scaffoldKey.currentState?.openDrawer();
+      },
+      icon: Icon(
+        Icons.menu,
+        size: MediaQuery.of(context).size.width * 0.12,
+        color: ThemeColor.whiteColor,
+      ),
+    );
+  }
+
+  Widget _buildSideMenu() {
+    return Drawer(
+      child: Container(
+        color: ThemeColor.primaryColor,
+        child: Padding(
+          padding: const EdgeInsets.all(kPaddingLarge),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              const Text(
+                'Menu de relatórios',
+                style: TextStyle(
+                    color: ThemeColor.whiteColor,
+                    fontSize: kFontsizeLarge,
+                    fontWeight: FontWeight.bold),
+              ),
+              UserAccountsDrawerHeader(
+                currentAccountPicture: Transform.scale(
+                  scale: 1.5,
+                  child: const CircleAvatar(
+                    backgroundImage: AssetImage(
+                        'assets/app_images/WaterFlow_without_background.png'),
+                  ),
+                ),
+                decoration: const BoxDecoration(
+                  color: ThemeColor.transparentColor,
+                ),
+                accountName: const Text(
+                  'WATER FLOW',
+                  style: TextStyle(
+                      color: ThemeColor.whiteColor,
+                      fontSize: kFontsizeMedium,
+                      fontWeight: FontWeight.bold),
+                ),
+                accountEmail: const Text(
+                  'Relatórios de consumo de água',
+                  maxLines: 2,
+                  style: TextStyle(
+                    color: ThemeColor.whiteColor,
+                  ),
+                ),
+              ),
+              ListTile(
+                leading: Icon(
+                  Icons.water_damage_outlined,
+                  color: ThemeColor.whiteColor,
+                  size: MediaQuery.of(context).size.width * 0.080,
+                ),
+                title: const Text(
+                  'Consumo Diário',
+                  style: TextStyle(
+                      color: ThemeColor.whiteColor, fontSize: kFontsizeMedium),
+                ),
+                onTap: () {
+                  Get.back();
+                  Get.offNamed('/dailyWaterConsumption');
+                },
+                selected: true,
+              ),
+              ListTile(
+                title: const Text(
+                  'Consumo Semanal',
+                  style: TextStyle(
+                      color: ThemeColor.whiteColor, fontSize: kFontsizeMedium),
+                ),
+                leading: Icon(
+                  Icons.water_damage_outlined,
+                  color: ThemeColor.whiteColor,
+                  size: MediaQuery.of(context).size.width * 0.080,
+                ),
+                onTap: () {},
+              ),
+              ListTile(
+                title: const Text(
+                  'Consumo Mensal',
+                  style: TextStyle(
+                      color: ThemeColor.whiteColor, fontSize: kFontsizeMedium),
+                ),
+                leading: Icon(
+                  Icons.water_damage_outlined,
+                  color: ThemeColor.whiteColor,
+                  size: MediaQuery.of(context).size.width * 0.080,
+                ),
+                onTap: () {},
+              ),
+              ListTile(
+                title: const Text(
+                  'Consumo Bimestral',
+                  style: TextStyle(
+                      color: ThemeColor.whiteColor, fontSize: kFontsizeMedium),
+                ),
+                leading: Icon(
+                  Icons.water_damage_outlined,
+                  color: ThemeColor.whiteColor,
+                  size: MediaQuery.of(context).size.width * 0.080,
+                ),
+                onTap: () {},
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _titleOfGraph() {
+    return const Text(
+      'Consumo em Tempo Real',
+      style: TextStyle(
+          color: ThemeColor.primaryColor,
+          fontSize: kFontsizeLarge,
+          
+          fontWeight: FontWeight.bold),
     );
   }
 }

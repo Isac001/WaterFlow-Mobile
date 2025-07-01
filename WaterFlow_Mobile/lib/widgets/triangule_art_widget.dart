@@ -1,15 +1,12 @@
-
 import 'package:flutter/cupertino.dart';
 
-
 /// CLASS TO CREATE THE TRIANGULAR SHAPE
-class TriangleClipper extends CustomClipper<Path> {
+class TriangleArtWidget extends CustomClipper<Path> {
   final bool isTopCorner;
 
-  TriangleClipper({this.isTopCorner = true});
+  TriangleArtWidget({this.isTopCorner = true});
 
   @override
-
   Path getClip(Size size) {
     final path = Path();
 
