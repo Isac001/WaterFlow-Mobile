@@ -4,6 +4,7 @@ import 'package:waterflow_mobile/controllers/flow_reading_controller.dart';
 import 'package:waterflow_mobile/modules/daily_water_consumption/controllers/daily_water_consumption_controller.dart';
 // import 'package:waterflow_mobile/modules/home/controllers/home_screen_controller.dart';
 import 'package:waterflow_mobile/modules/login/controllers/login_screen_controller.dart';
+import 'package:waterflow_mobile/modules/weekly_water_consumption/controllers/weekly_water_consumption_controller.dart';
 
 // Class to initialize all controllers in the app
 class InitializerControllers {
@@ -21,6 +22,10 @@ class InitializerControllers {
     // Initializes the flow reading controller
     Get.lazyPut(() => FlowReadingController());
 
+    // Initializes the daily water consumption controller
     Get.lazyPut(() => DailyWaterConsumptionController());
+
+    // Initializes the weekly water consumption controller
+    Get.lazyPut(() => WeeklyWaterConsumptionController());
   }
 }

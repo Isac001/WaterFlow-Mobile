@@ -17,7 +17,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
   // Calling the controller injected by GetX
   final FlowReadingController _flowReadingController =
       Get.find<FlowReadingController>();
@@ -30,6 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    
     // Screen size variable to get the screen dimensions
     final screenSize = MediaQuery.of(context).size;
     final double primaryTriangleWidth = screenSize.width * 0.6;
@@ -81,6 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    // Displaying the title
                     _titleOfGraph(),
                     // Displaying the radial graph
                     _radialGrap(),
@@ -100,19 +101,16 @@ class _HomeScreenState extends State<HomeScreen> {
               right: MediaQuery.of(context).size.width * 0.02,
 
               // Logout button to exit the application
-              child:  Row(
+              child: Row(
                 children: [_notificationsButton(), _logoutButton()],
               ),
             ),
           ),
-
-          ///[TODO] Add notification functionality
-         
           MediaQuery(
             data: MediaQuery.of(context),
             child: Positioned(
-              top: MediaQuery.of(context).size.height * 0.01,
-              left: MediaQuery.of(context).size.width * 0.02,
+              top: screenSize.height * 0.01,
+              left: screenSize.width * 0.02,
               child: _sideBarButtom(),
             ),
           ),
@@ -287,7 +285,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   color: ThemeColor.whiteColor,
                   size: MediaQuery.of(context).size.width * 0.080,
                 ),
-                onTap: () {},
+                onTap: () {
+                  Get.back();
+                  Get.offNamed('/weeklyWaterConsumption');
+                },
               ),
               ListTile(
                 title: const Text(
@@ -328,7 +329,6 @@ class _HomeScreenState extends State<HomeScreen> {
       style: TextStyle(
           color: ThemeColor.primaryColor,
           fontSize: kFontsizeLarge,
-          
           fontWeight: FontWeight.bold),
     );
   }

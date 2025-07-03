@@ -2,6 +2,8 @@ import 'package:flutter/widgets.dart';
 import 'package:waterflow_mobile/modules/daily_water_consumption/screens/daily_water_consumption_screen.dart';
 import 'package:waterflow_mobile/modules/home/screens/home_screen.dart';
 import 'package:waterflow_mobile/modules/login/screens/login_screen.dart';
+import 'package:waterflow_mobile/modules/weekly_water_consumption/screens/weekly_detail_screen.dart';
+import 'package:waterflow_mobile/modules/weekly_water_consumption/screens/weekly_water_consumption_screen.dart';
 import 'package:waterflow_mobile/utils/splash_utils/splash_screen.dart';
 
 class Routes {
@@ -23,6 +25,12 @@ class Routes {
 
     // [DAILY WATER CONSUMPTION ROUTES]
     '/dailyWaterConsumption': (context) => const DailyWaterConsumptionScreen(),
+
+    // [WEAKLY WATER CONSUMPTION ROUTES]
+    '/weeklyWaterConsumption': (context) => const WeeklyWaterConsumptionScreen(),
+
+    // [WEAKLY WATER CONSUMPTION ROUTES]
+    '/weeklyDetail': (context) => const WeeklyDetailScreen(),
 
   };
 }
