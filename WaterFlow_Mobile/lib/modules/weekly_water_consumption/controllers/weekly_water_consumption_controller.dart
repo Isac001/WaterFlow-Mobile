@@ -12,7 +12,7 @@ class WeeklyWaterConsumptionController extends GetxController {
       PagingController<int, WeeklyWaterConsumptionModel>(firstPageKey: 1);
 
   // An instance of the service to fetch data from the API.
-  final _service = WeeklyWaterConsumptionService();
+  final _service = WeeklyWaterConsumptionServices();
 
   @override
   void onInit() {
@@ -27,7 +27,7 @@ class WeeklyWaterConsumptionController extends GetxController {
   // Fetches daily consumption data for a specific week, processes it, and prepares it for a chart.
   Future<List<ChartPoint>> fetchAndProcessGraphData(String id) async {
     // Call the service to get the raw daily details for the given week ID.
-    final details = await _service.detailDaysOnWeekWaterConsumption(id);
+    final details = await _service.detailDaysOnWeekConsumption(id);
 
     // Use a map to aggregate consumptions by date (e.g., '23/07').
     final Map<String, double> agregatedData = {};
@@ -74,7 +74,7 @@ class WeeklyWaterConsumptionController extends GetxController {
       // Extracts the list of items and the 'isLastPage' flag from the response.
       final List<WeeklyWaterConsumptionModel> newItems = response['data'] ?? [];
       final bool isLastPage = response['isLastPage'] ?? true;
-      
+
       if (isLastPage) {
         // If it's the last page, append the items and stop listening for more pages.
         pagingController.appendLastPage(newItems);
