@@ -4,12 +4,12 @@ import 'package:waterflow_mobile/modules/weekly_water_consumption/models/weekly_
 import 'package:waterflow_mobile/project_configs/dio_config.dart';
 
 // This service class handles all API requests related to weekly water consumption.
-class WeeklyWaterConsumptionService {
+class WeeklyWaterConsumptionServices {
   // The base URL for the API, loaded from environment variables for configuration.
   final String baseUrl = const String.fromEnvironment('BASEURL');
 
   // The specific endpoint for weekly water consumption resources.
-  final String listEndpoint = 'weekly_water_consumption/';
+  final String endPoint = 'weekly_water_consumption/';
 
   // Fetches a paginated list of weekly water consumption records.
   Future<Map<String, dynamic>> listWeeklyWaterConsumption(int pageKey,
@@ -18,7 +18,7 @@ class WeeklyWaterConsumptionService {
       // Makes the GET request to the paginated endpoint.
       final response = await DioConfig(showLoading: showLoading)
           .dio
-          .get('$baseUrl$listEndpoint?page=$pageKey');
+          .get('$baseUrl$endPoint?page=$pageKey');
 
       // Check for a successful response status code.
       if (response.statusCode == 200) {
@@ -50,20 +50,22 @@ class WeeklyWaterConsumptionService {
         return Future.error(error);
       }
     }
-  } 
+  }
 
   // Fetches the daily consumption details for a specific week by its ID.
-  Future<List<DaysOnWeekModel>> detailDaysOnWeekWaterConsumption(String id) async {
+  Future<List<DaysOnWeekModel>> detailDaysOnWeekConsumption(String id) async {
     try {
       // API call to the detail endpoint (e.g., /weekly_water_consumption/some-id/).
-      final response = await DioConfig(showLoading: false).dio.get('$baseUrl$listEndpoint$id/');
+      final response =
+          await DioConfig(showLoading: false).dio.get('$baseUrl$endPoint$id/');
 
       // Check for a successful response.
       if (response.statusCode == 200) {
         // Extract the list of daily data from the response.
         final List<dynamic> daysOnWeekResults = response.data ?? [];
         // Map the raw JSON items to a list of DaysOnWeekModel objects.
-        final List<DaysOnWeekModel> dailyDetails  = daysOnWeekResults.map((item) {
+        final List<DaysOnWeekModel> dailyDetails =
+            daysOnWeekResults.map((item) {
           return DaysOnWeekModel.fromJson(item);
         }).toList();
         return dailyDetails;
@@ -73,7 +75,8 @@ class WeeklyWaterConsumptionService {
       }
     } on DioException catch (error) {
       // For Dio-specific errors, throw a formatted exception with status code.
-      throw Exception('Falha ao carregar detalhes: Status ${error.response!.statusCode}');
+      throw Exception(
+          'Falha ao carregar detalhes: Status ${error.response!.statusCode}');
     } catch (e) {
       // For other errors (like parsing), throw a generic exception.
       throw Exception('Erro ao processar dados: ${e.toString()}');

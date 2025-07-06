@@ -29,7 +29,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    
     // Screen size variable to get the screen dimensions
     final screenSize = MediaQuery.of(context).size;
     final double primaryTriangleWidth = screenSize.width * 0.6;
@@ -141,13 +140,16 @@ class _HomeScreenState extends State<HomeScreen> {
             color: ThemeColor.primaryColor,
             fontSize: MediaQuery.of(context).size.width * 0.05,
           ),
+          // Setting the prefix icon
           prefixIcon: const Icon(
             Icons.calendar_today,
             color: ThemeColor.primaryColor,
           ),
+          // Setting the border
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(kRadiusSmall),
           ),
+          // Setting the disabled border
           disabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(kRadiusSmall),
               borderSide: BorderSide(
@@ -215,105 +217,161 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  // Defines a private helper method to build the side navigation menu (Drawer).
   Widget _buildSideMenu() {
+    // Returns a Drawer widget, which is a material design panel that slides in horizontally from the edge of a Scaffold.
     return Drawer(
+      // The main container for the drawer's content.
       child: Container(
+        // Sets the background color of the drawer.
         color: ThemeColor.primaryColor,
+        // Applies padding to all sides of the container.
         child: Padding(
           padding: const EdgeInsets.all(kPaddingLarge),
+          // Arranges its children in a vertical column.
           child: Column(
+            // Aligns the children to the start of the main axis (top of the column).
             mainAxisAlignment: MainAxisAlignment.start,
+            // The list of widgets to display in the column.
             children: <Widget>[
+              // Displays the title of the menu.
               const Text(
-                'Menu de relatórios',
+                'Menu de relatórios', // Text content: "Reports Menu"
+                // Styles the text with a specific color, font size, and weight.
                 style: TextStyle(
                     color: ThemeColor.whiteColor,
                     fontSize: kFontsizeLarge,
                     fontWeight: FontWeight.bold),
               ),
+              // A material design drawer header that shows account details.
               UserAccountsDrawerHeader(
+                // The primary widget to display, typically an image of the user.
                 currentAccountPicture: Transform.scale(
+                  // Scales the child widget up by 1.5x.
                   scale: 1.5,
+                  // A circular avatar for the account picture.
                   child: const CircleAvatar(
+                    // Sets the background image for the avatar.
                     backgroundImage: AssetImage(
                         'assets/app_images/WaterFlow_without_background.png'),
                   ),
                 ),
+                // The decoration for the header's box.
                 decoration: const BoxDecoration(
+                  // Sets the background color to transparent to show the drawer's color.
                   color: ThemeColor.transparentColor,
                 ),
+                // The name of the account.
                 accountName: const Text(
                   'WATER FLOW',
+                  // Styles the account name text.
                   style: TextStyle(
                       color: ThemeColor.whiteColor,
                       fontSize: kFontsizeMedium,
                       fontWeight: FontWeight.bold),
                 ),
+                // The email or a secondary piece of information for the account.
                 accountEmail: const Text(
-                  'Relatórios de consumo de água',
+                  'Relatórios de consumo de água', // Text content: "Water consumption reports"
+                  // Limits the text to a maximum of 2 lines.
                   maxLines: 2,
+                  // Styles the account email text.
                   style: TextStyle(
                     color: ThemeColor.whiteColor,
                   ),
                 ),
               ),
+              // A single fixed-height row, typically used in menus. Represents the "Daily Consumption" option.
               ListTile(
+                // An icon placed at the beginning of the tile.
                 leading: Icon(
                   Icons.water_damage_outlined,
                   color: ThemeColor.whiteColor,
+                  // Sets the icon size relative to the screen width.
                   size: MediaQuery.of(context).size.width * 0.080,
                 ),
+                // The primary content of the list tile, the title.
                 title: const Text(
-                  'Consumo Diário',
+                  'Consumo Diário', // Text content: "Daily Consumption"
+                  // Styles the title text.
                   style: TextStyle(
                       color: ThemeColor.whiteColor, fontSize: kFontsizeMedium),
                 ),
+                // The callback function that is called when the user taps this list tile.
                 onTap: () {
+                  // Closes the drawer.
                   Get.back();
+                  // Navigates to the '/dailyWaterConsumption' route and removes the previous route from the stack.
                   Get.offNamed('/dailyWaterConsumption');
                 },
+                // Marks this tile as currently selected, often highlighting it.
                 selected: true,
               ),
+              // Represents the "Weekly Consumption" menu option.
               ListTile(
+                // The title of the tile.
                 title: const Text(
-                  'Consumo Semanal',
+                  'Consumo Semanal', // Text content: "Weekly Consumption"
+                  // Styles the title text.
                   style: TextStyle(
                       color: ThemeColor.whiteColor, fontSize: kFontsizeMedium),
                 ),
+                // An icon placed at the beginning of the tile.
                 leading: Icon(
                   Icons.water_damage_outlined,
                   color: ThemeColor.whiteColor,
+                  // Sets the icon size relative to the screen width.
                   size: MediaQuery.of(context).size.width * 0.080,
                 ),
+                // The action to perform on tap.
                 onTap: () {
+                  // Closes the drawer.
                   Get.back();
+                  // Navigates to the '/weeklyWaterConsumption' route.
                   Get.offNamed('/weeklyWaterConsumption');
                 },
               ),
+              // Represents the "Monthly Consumption" menu option.
               ListTile(
+                // The title of the tile.
                 title: const Text(
-                  'Consumo Mensal',
+                  'Consumo Mensal', // Text content: "Monthly Consumption"
+                  // Styles the title text.
                   style: TextStyle(
                       color: ThemeColor.whiteColor, fontSize: kFontsizeMedium),
                 ),
+                // An icon placed at the beginning of the tile.
                 leading: Icon(
                   Icons.water_damage_outlined,
                   color: ThemeColor.whiteColor,
+                  // Sets the icon size relative to the screen width.
                   size: MediaQuery.of(context).size.width * 0.080,
                 ),
-                onTap: () {},
+                // The action to perform on tap.
+                onTap: () {
+                  // Closes the drawer.
+                  Get.back();
+                  // Navigates to the '/monthlyWaterConsumption' route.
+                  Get.offNamed('/monthlyWaterConsumption');
+                },
               ),
+              // Represents the "Bimonthly Consumption" menu option.
               ListTile(
+                // The title of the tile.
                 title: const Text(
-                  'Consumo Bimestral',
+                  'Consumo Bimestral', // Text content: "Bimonthly Consumption"
+                  // Styles the title text.
                   style: TextStyle(
                       color: ThemeColor.whiteColor, fontSize: kFontsizeMedium),
                 ),
+                // An icon placed at the beginning of the tile.
                 leading: Icon(
                   Icons.water_damage_outlined,
                   color: ThemeColor.whiteColor,
+                  // Sets the icon size relative to the screen width.
                   size: MediaQuery.of(context).size.width * 0.080,
                 ),
+                // The action to perform on tap (currently empty).
                 onTap: () {},
               ),
             ],
@@ -323,6 +381,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  // Function to show the title of the graph
   Widget _titleOfGraph() {
     return const Text(
       'Consumo em Tempo Real',
