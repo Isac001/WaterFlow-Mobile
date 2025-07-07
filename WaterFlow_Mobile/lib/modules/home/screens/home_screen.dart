@@ -372,7 +372,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   size: MediaQuery.of(context).size.width * 0.080,
                 ),
                 // The action to perform on tap (currently empty).
-                onTap: () {},
+                onTap: () {
+                  Get.back();
+                  // Navigates to the '/monthlyWaterConsumption' route.
+                  Get.offNamed('/bimonthlyWaterConsumption');
+                },
               ),
             ],
           ),

@@ -1,4 +1,6 @@
 import 'package:flutter/widgets.dart';
+import 'package:waterflow_mobile/modules/bimonthly_water_consumption/screens/bimonthly_detail_graph_screen.dart';
+import 'package:waterflow_mobile/modules/bimonthly_water_consumption/screens/bimonthly_water_consumption_screen.dart';
 import 'package:waterflow_mobile/modules/daily_water_consumption/screens/daily_water_consumption_screen.dart';
 import 'package:waterflow_mobile/modules/home/screens/home_screen.dart';
 import 'package:waterflow_mobile/modules/login/screens/login_screen.dart';
@@ -38,7 +40,13 @@ class Routes {
     '/monthlyWaterConsumption': (context) => const MonthlyWaterConsumptionScreen(),
 
     // [MONTHLY WATER CONSUMPTION ROUTES]
-    '/monthlyDetail': (context) => const MonthlyDetailGraphScreen()
+    '/monthlyDetail': (context) => const MonthlyDetailGraphScreen(),
+
+    // [BIMONTHLY WATER CONSUMPTION ROUTES]
+    '/bimonthlyWaterConsumption': (context) => const BimonthlyWaterConsumptionScreen(), 
+
+    // [BIMONTHLY WATER CONSUMPTION ROUTES]
+    '/bimonthlyDetail': (context) => const BimonthlyDetailGraphScreen(),
 
   };
 }
